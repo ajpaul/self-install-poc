@@ -1,0 +1,10 @@
+<h2>{{ listConfig.headerText }}</h2>
+<p>{{ listConfig.paragraphText }}</p>
+<ul>
+    <li *ngFor="let item of listConfig?.listItems">
+        <div><b>{{ item.itemText }}</b></div>
+        <div>{{ item.subText }}</div>
+    </li>
+</ul>
+<button>Missing Equipment?</button>
+<button (click)="setupClickEvent()" >{{ listConfig.buttonText }}</button>
