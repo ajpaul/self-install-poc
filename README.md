@@ -1,27 +1,19 @@
-# ArchPoc2
+# Self Install Config-driven POC
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+## Decisions
+- Do not use the term `router` in this application, as it creates confusion with the Angular/Ionic router functionality. Use `wifi` instead.
 
-## Development server
+## Modules
+This project contains a shared module for dumb components, so they can be referenced anywhere in the application without them clogging up the app module. There also is a feature module for each LOB, each with their own respective router modules to isolate complexity. This also enables lazy loading as seen in the app-routing.module.ts
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Checklist
+*the implementation in this project differs slightly from what we discussed, since this project currently shows a smart component for each LOB's checklist, which references an injected dumb component. This works, although further optimizations are listed below.*
 
-## Code scaffolding
+As of March 27, the approach we landed on having a dumb, configuration-driven checklist. Checklist config should be stored in a `*.ts` file as a `const` with all uppercase letters to denote it is a constant. The contents of that file can also be exported as a `namespace`. There are three ways for the dumb component to retrieve the correct configuration:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- pass in an optional [static data](https://www.tektutorialshub.com/angular/angular-pass-data-to-route/) configuration into the route config and read with `ActivatedRoute`, such as this: `{ path:  'modem/checklist', component:  TutorialComponent, data: { lob:  'modem'} },`
+- either use `ActivatedRoute` to read the URL parameters and determine if the `/checklist` URL is in the context of a modem, router, etc (although this is slightly harder given the structure of the URL)
+- retrieve the line of business for the current journey from NgRx (would require injecting a service, which is not necessary here and would complicate the component unnecessarily) 
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+This also would warrant a dedicated checklist route in each feature modules' router config:
+<code>{ path:  'checklist', component:  ChecklistComponent }</code>
