@@ -2,6 +2,8 @@
 
 ## Decisions
 - Do not use the term `router` in this application, as it creates confusion with the Angular/Ionic router functionality. Use `wifi` instead.
+- Route changes should drive the config-swapping for the checklist.
+- Configs for checklist should be stored locally in a `.ts` file and not in the NgRx store
 
 ## Modules
 This project contains a shared module for dumb components, so they can be referenced anywhere in the application without them clogging up the app module. There also is a feature module for each LOB, each with their own respective router modules to isolate complexity. This also enables lazy loading as seen in the app-routing.module.ts
@@ -9,7 +11,7 @@ This project contains a shared module for dumb components, so they can be refere
 ## Checklist
 *the implementation in this project differs slightly from what we discussed, since this project currently shows a smart component for each LOB's checklist, which references an injected dumb component. This works, although further optimizations are listed below.*
 
-As of March 27, the approach we landed on having a dumb, configuration-driven checklist. Checklist config should be stored in a `*.ts` file as a `const` with all uppercase letters to denote it is a constant. The contents of that file can also be exported as a `namespace`. There are three ways for the dumb component to retrieve the correct configuration:
+As of March 27, the approach we landed on having a dumb, configuration-driven checklist tied to the current route. Checklist config should be stored in a `*.ts` file as a `const` with all uppercase letters to denote it is a constant. The contents of that file can also be exported as a `namespace`. There are three ways for the dumb component to retrieve the correct configuration:
 
 - pass in an optional [static data](https://www.tektutorialshub.com/angular/angular-pass-data-to-route/) configuration into the route config and read with `ActivatedRoute`, such as this: `{ path:  'modem/checklist', component:  TutorialComponent, data: { lob:  'modem'} },`
 - either use `ActivatedRoute` to read the URL parameters and determine if the `/checklist` URL is in the context of a modem, router, etc (although this is slightly harder given the structure of the URL)
