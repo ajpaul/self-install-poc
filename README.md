@@ -19,3 +19,8 @@ As of March 27, the approach we landed on having a dumb, configuration-driven ch
 
 This also would warrant a dedicated checklist route in each feature modules' router config:
 <code>{ path:  'checklist', component:  ChecklistComponent }</code>
+
+## Routes
+The app module's routing config will likely only contain component routes for `agreements` and `equipment-list`. After that, there should be a route for a feature module for each line of business that is lazy loaded. This could include `modem`, `wifi`, `receiver`, `voice`, and `pod`. 
+
+Within the feature module for a given LOB, there should be a `checklist` route, a parameterized route for the tutorial such as `modem/:tutorial`, a URL for the `activate` component, and whatever smart components are needed. **Configuration steps have not been architected yet**.
