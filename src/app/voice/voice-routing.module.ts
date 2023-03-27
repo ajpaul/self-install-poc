@@ -1,19 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ChecklistComponent } from '../shared/checklist-dumb/checklist.component';
-import { VoiceChecklistComponent } from './voice-checklist/voice-checklist.component';
-import { VoiceTutorialComponent } from './voice-tutorial/voice-tutorial.component';
-
 
 const routes: Routes = [
     {
-        path: '',
-        component: VoiceChecklistComponent
-    },
-    // {
-    //     path: 'checklist',
-    //     component: ChecklistComponent
-    // }
+        path: '', // should be /checklist once more features are added
+        component: ChecklistComponent,
+        data: {
+            lob: 'voice'
+        }
+    }
 ];
 
 @NgModule({
